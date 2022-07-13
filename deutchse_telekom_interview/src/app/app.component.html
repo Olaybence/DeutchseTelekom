@@ -1,0 +1,13 @@
+<div class="main grid p-fluid col-12 md:col-12">
+    <div class="col-10 md:col-10 card">
+        <app-header></app-header>
+    </div>
+    <div *ngIf="newPost" class="col-10 md:col-10 card">
+        <add-post></add-post>
+    </div>
+    
+    <div class="col-11 md:col-11 card">
+        <post-list [(ngModel)]="posts"></post-list>
+        <!-- <post-list (act)="action"></post-list> -->
+    </div>
+</div>

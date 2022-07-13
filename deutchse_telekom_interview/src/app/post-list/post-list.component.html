@@ -1,0 +1,21 @@
+<div class="post-table-header">
+    <h5>Posts</h5>
+    <p-selectButton [options]="showAmountOptions" [(ngModel)]="showAmount" (ngModelChange)="onSAChange($event)" optionLabel="name"></p-selectButton>
+    
+</div>
+<p-accordion>
+    <ng-container *ngFor="let post of filteredPosts; let id = index; first as isFirst">
+        <!-- The first is selected -->
+        <div *ngIf="!editArr[id]" class="card">
+            <div class="post-header">
+                <h4> {{post.title}} </h4>
+                <button pButton type="button" icon="pi pi-pencil" class="p-button-text" (click)="edit(id)"></button>
+            </div>
+            <p>{{post.body}}</p>
+        </div>
+
+        <div *ngIf="editArr[id]" class="card">
+            <add-post (isEdited)="submitEdit($event)" [id]="id" [edit]="true" [title]="post.title" [body]="post.body"></add-post>
+        </div>
+    </ng-container>
+</p-accordion>

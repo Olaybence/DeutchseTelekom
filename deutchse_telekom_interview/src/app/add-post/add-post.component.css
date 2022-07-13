@@ -1,0 +1,12 @@
+.right {
+    text-align: right;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.padding-top-20 {
+    padding-top: 20px;
+}

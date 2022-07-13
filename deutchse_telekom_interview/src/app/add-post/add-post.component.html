@@ -1,0 +1,31 @@
+
+<h2 *ngIf="!edit">New Post</h2>
+<h2 *ngIf="edit">Edit</h2>
+
+<div class="row">
+    <div>
+        <h5>Title</h5>
+        <input pInputText [(ngModel)]="title" placeholder="Title"/>
+    </div>
+    <div>
+        <h5>User ID</h5>
+        <p-inputNumber [(ngModel)]="userId" [showButtons]="true"></p-inputNumber>
+    </div>
+</div>
+
+<h5>Post</h5>
+<textarea pInputTextarea [(ngModel)]="body" 
+    placeholder="What is in your mind?" [autoResize]="true" rows="3" cols="30">
+</textarea>
+
+<div class="padding-top-20">
+    <button pButton *ngIf="edit" type="button" 
+        class="p-button-text" (click)="editPost()">
+        Update
+    </button>
+    
+    <button pButton *ngIf="!edit" type="button"
+        class="p-button-text right" (click)="addPost()">
+        Post
+    </button>
+</div>
