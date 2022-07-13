@@ -55,16 +55,19 @@ export class PostService {
 
   // SETTERS - EDIT AND ADD
 
+  // TODO: doesn't works or the server doesn't replies well. CHECK IT
   editPost(post: Post) : Observable<any> {
-    console.log("editPost", post);
+    // console.log("editPost", post);
     return this.http.put<any>("https://jsonplaceholder.typicode.com/posts/" + post.id, post);
   }
 
+  // TODO: doesn't works or the server doesn't replies well. CHECK IT
   addPost(postIDLess: PostIDLess) : Observable<any> {
-    console.log("addPost", postIDLess);
+    // console.log("addPost", postIDLess);
     return this.http.post<any>("https://jsonplaceholder.typicode.com/posts", postIDLess);
   }
 
+  // TODO: Same as with add and edit
   deletePost(index: number) : Observable<any> {
     return this.http.delete<any>("https://jsonplaceholder.typicode.com/posts/" + index)
   }

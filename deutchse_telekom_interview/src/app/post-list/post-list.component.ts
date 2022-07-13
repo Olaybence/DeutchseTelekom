@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Post, PostService } from 'src/services/post.service';
 import { CommentService } from 'src/services/comments.service';
+import { getSafePropertyAccessString } from '@angular/compiler';
 
 @Component({
   selector: 'post-list',
@@ -26,7 +27,8 @@ export class PostListComponent implements OnInit {
     {name: '100', value: 100}
   ];
   
-  editArr: boolean[] = [];
+  actPost!: Post;
+  act: boolean = false;
   comments: Comment[][] = [];
   
 
@@ -34,13 +36,22 @@ export class PostListComponent implements OnInit {
     private commentService: CommentService) {
     // Get the Posts from the service
     console.log("constructor", this.posts);
+    this.getAllPosts();
+  }
+  
+  ngOnInit(): void {
+    console.log("PostListComponent ngOnInit() ");
+    console.log("this.actPost",this.actPost);
+  }
+  
+  getAllPosts(): void {
     this.postService.getPosts().subscribe(
       response => {
+        this.posts = [];
         response.map( post => {
           let p = new Post(post.title, post.body, post.userId, post.id);
           this.posts.push(p);
           this.filteredPosts = this.posts.slice(this.first, this.first + this.showAmount);
-          this.editArr.fill(false);
 
           // Get the Comments from the service
           this.posts.slice(this.first,this.showAmount).map( (post,id) => {
@@ -54,12 +65,6 @@ export class PostListComponent implements OnInit {
         console.log(this.posts);
       }, error => console.log(error)
     );
-
-    
-  }
-  
-  ngOnInit(): void {
-    console.log("ngOnInit() ", this.posts);
   }
 
   // showAmount change
@@ -68,30 +73,34 @@ export class PostListComponent implements OnInit {
     console.log(this.posts);
     this.showAmount = event.value;
     this.first = 0;
-    this.editArr.fill(false);
     this.filteredPosts = this.posts.slice(this.first, this.first + this.showAmount);
+    this.act = false;
   }
 
   // Editor switch in on given post
-  edit(index: number): void {
-    console.log("edit", index, this.editArr);
-    this.editArr[index] = !this.editArr[index];
+  edit(post: Post): void {
+    this.actPost = post;
+    this.act = true;
   }
 
   // Submit the edit of a post
   submitEdit(post: Post): void {
     console.log("submit edit", post);
-    this.posts[post.id] = post;
-    this.editArr[post.id] = !this.editArr[post.id];
+    this.filteredPosts = this.posts.slice(this.first, this.first + this.showAmount);
+    this.act = false;
+    this.getAllPosts();
   }
   
   // Edit and than submit the deletion of a post
-  submitDelete(index: number): void {
-    console.log("submit delete", index);
-    this.postService.deletePost(index);
+  submitDelete(id: number): void {
+    console.log("submit delete", id);
+    this.postService.deletePost(id);
   }
 
-  pressNewPost(): void {
-    
+  closeEdit(post: Post): void {
+    console.log("colseEdit", post);
+    this.posts[post.id] = post;
+    this.actPost.id = -1;
+    this.act = false;
   }
 }

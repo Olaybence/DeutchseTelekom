@@ -28,6 +28,12 @@
     text-align: right;
 }
 
-.new-post-button {
-    
+.back {
+    position: relative;
+}
+
+.w100-ar {
+    width: 100%;
+    text-align: right;
+    height: 0px;
 }

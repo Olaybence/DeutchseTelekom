@@ -21,7 +21,7 @@ export class AddPostComponent implements OnInit {
   constructor(private postService: PostService) { }
 
   ngOnInit(): void {
-    console.log("ngOnInit this",this);
+    console.log("AddPostComponent ngOnInit this", this);
     if(this.id == null) {
       this.userId = Math.floor(Math.random()*1000000);
     }
@@ -35,15 +35,20 @@ export class AddPostComponent implements OnInit {
     this.postService.addPost(new PostIDLess(this.title,this.body, this.userId)).subscribe(
       response => console.log("post added, response:",response)
     );
+
+    this.title = "";
+    this.body = "";
+    this.userId = 0;
   }
   
   editPost(): void {
-    console.log("add-post, editPost");
+    console.log("add-post - editPost()");
     console.log(this.title, this.body, this.userId);
-    
-    this.isEdited.emit(new Post(this.title,this.body,this.userId, this.id));
-    this.postService.addPost(new Post(this.title,this.body, this.userId, this.id)).subscribe(
-      response => console.log("post added, response:",response)
+
+    let post = new Post(this.title,this.body, this.userId, this.id);
+    this.isEdited.emit(post);
+    this.postService.editPost(post).subscribe(
+      response => console.log("add-post - editPost(), response:",response)
     );
   }
 }

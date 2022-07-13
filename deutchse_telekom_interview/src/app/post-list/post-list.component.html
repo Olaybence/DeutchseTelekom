@@ -1,21 +1,29 @@
 <div class="post-table-header">
     <h5>Posts</h5>
-    <p-selectButton [options]="showAmountOptions" [(ngModel)]="showAmount" (ngModelChange)="onSAChange($event)" optionLabel="name"></p-selectButton>
-    
+    <p-selectButton [options]="showAmountOptions" [(ngModel)]="showAmount" 
+        (ngModelChange)="onSAChange($event)" optionLabel="name"></p-selectButton>
 </div>
 <p-accordion>
-    <ng-container *ngFor="let post of filteredPosts; let id = index; first as isFirst">
+    <ng-container *ngFor="let post of filteredPosts">
         <!-- The first is selected -->
-        <div *ngIf="!editArr[id]" class="card">
+        <div *ngIf="!act || actPost.id != post.id" class="card">
             <div class="post-header">
                 <h4> {{post.title}} </h4>
-                <button pButton type="button" icon="pi pi-pencil" class="p-button-text" (click)="edit(id)"></button>
+                <button pButton type="button" icon="pi pi-pencil" 
+                    class="p-button-text" (click)="edit(post)"></button>
             </div>
             <p>{{post.body}}</p>
         </div>
 
-        <div *ngIf="editArr[id]" class="card">
-            <add-post (isEdited)="submitEdit($event)" [id]="id" [edit]="true" [title]="post.title" [body]="post.body"></add-post>
+        <!-- TODO: Add comments and edit of comments -->
+
+        <div *ngIf="act && actPost.id == post.id" class="card">
+            <div class="w100-ar">
+                <button pButton class="back" type="button" icon="pi pi-times" (click)="closeEdit(post)"></button>
+            </div>
+            <add-post (isEdited)="submitEdit($event)" [id]="post.id" 
+                [edit]="true" [title]="post.title" [body]="post.body" [userId]="post.userId">
+            </add-post>
         </div>
     </ng-container>
 </p-accordion>

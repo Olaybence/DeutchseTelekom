@@ -16,7 +16,7 @@ export class AppComponent {
   public posts: Post[] = [];
 
   constructor(private primengConfig: PrimeNGConfig) {
-    document.documentElement.style.fontSize = "16px";
+    document.documentElement.style.fontSize = "14px";
   }
 
   ngOnInit() {
